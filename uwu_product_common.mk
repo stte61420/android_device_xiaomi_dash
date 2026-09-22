@@ -33,9 +33,14 @@ DASH_WITH_LINEAGE_PARTS ?= false
 # ---------------------------------------------------------------------------
 # 2) 发布构建签名钩子（user / release-keys）
 #    用法：m DASH_RELEASE_KEYS=true DASH_KEYDIR=$HOME/.android-certs ...
-# ---------------------------------------------------------------------------
 DASH_RELEASE_KEYS ?= false
-DASH_KEYDIR       ?= $(HOME)/.android-certs
+ifneq ($(wildcard vendor/lineage-priv/keys/releasekey.pk8),)
+DASH_KEYDIR       := vendor/lineage-priv/keys
+else ifneq ($(wildcard vendor/custom-priv/keys/releasekey.pk8),)
+DASH_KEYDIR       := vendor/custom-priv/keys
+else
+DASH_KEYDIR       ?= vendor/lineage-priv/keys
+endif
 
 # ---------------------------------------------------------------------------
 # 3) 架构：dash 为 64-bit-only（arm64-v8a，无 32 位支持）

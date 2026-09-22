@@ -45,7 +45,13 @@ BOARD_AVB_ENABLE := true
 BOARD_AVB_ALGORITHM := SHA256_RSA4096
 
 # AVB 2.0 key resolution
-DASH_KEYDIR ?= $(HOME)/.android-certs
+ifneq ($(wildcard vendor/lineage-priv/keys/avb.pk8),)
+DASH_KEYDIR := vendor/lineage-priv/keys
+else ifneq ($(wildcard vendor/custom-priv/keys/avb.pk8),)
+DASH_KEYDIR := vendor/custom-priv/keys
+else
+DASH_KEYDIR ?= vendor/lineage-priv/keys
+endif
 
 ifeq ($(BOARD_AVB_KEY_PATH),)
   ifneq ($(wildcard vendor/lineage-priv/keys/avb.pk8),)
