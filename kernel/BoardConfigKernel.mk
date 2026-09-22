@@ -44,9 +44,7 @@ BOARD_AVB_ALGORITHM := SHA256_RSA4096
 DASH_KEYDIR ?= $(HOME)/.android-certs
 
 ifeq ($(BOARD_AVB_KEY_PATH),)
-  ifneq ($(wildcard $(DASH_KEYDIR)/avb.pk8),)
-    BOARD_AVB_KEY_PATH := $(DASH_KEYDIR)/avb.pk8
-  else ifneq ($(wildcard vendor/lineage-priv/keys/avb.pk8),)
+  ifneq ($(wildcard vendor/lineage-priv/keys/avb.pk8),)
     BOARD_AVB_KEY_PATH := vendor/lineage-priv/keys/avb.pk8
   else ifneq ($(wildcard vendor/custom-priv/keys/avb.pk8),)
     BOARD_AVB_KEY_PATH := vendor/custom-priv/keys/avb.pk8
