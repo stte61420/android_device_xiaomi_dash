@@ -66,7 +66,9 @@ $(call inherit-product, device/xiaomi/dash/device.mk)
 LINEAGE_BUILDTYPE ?= RAWHIDE
 $(call inherit-product, vendor/custom/config/common_full_phone.mk)
 
-TARGET_FORCE_OTA_PACKAGE := false
+TARGET_FORCE_OTA_PACKAGE := true
+PRODUCT_BUILD_GENERIC_OTA_PACKAGE := true
+LINEAGE_VERSION ?= $(CUSTOM_VERSION)
 
 # ---------------------------------------------------------------------------
 # 6) 产品身份（fingerprint 组成部分，必须与源树保持一致）

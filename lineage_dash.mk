@@ -12,7 +12,8 @@ LINEAGE_BUILDTYPE := RAWHIDE
 
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
-TARGET_FORCE_OTA_PACKAGE := false
+TARGET_FORCE_OTA_PACKAGE := true
+PRODUCT_BUILD_GENERIC_OTA_PACKAGE := true
 
 PRODUCT_NAME := lineage_dash
 PRODUCT_DEVICE := dash
