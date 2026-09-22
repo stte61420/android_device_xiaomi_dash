@@ -71,9 +71,14 @@ SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += \
     $(DEVICE_PATH)/sepolicy/system_ext/private
 
 # Dynamic Partitions
-BOARD_SUPER_PARTITION_SIZE := 9126805504
+# Physical super layout measured via lpdump from the stock OS3.0.305
+# fastboot package (dash_images_OS3.0.305.0.WPLCNXM). Ground truth:
+#   super:          12884901888 bytes (12 GiB)
+#   main group max:  12874416128 bytes (stock main_a/main_b quota)
+# Do not change these without re-dumping the stock LP metadata.
+BOARD_SUPER_PARTITION_SIZE := 12884901888
 BOARD_SUPER_PARTITION_GROUPS := main
-BOARD_MAIN_SIZE := 9122611200
+BOARD_MAIN_SIZE := 12874416128
 BOARD_MAIN_PARTITION_LIST :=     system     system_ext     product     vendor_dlkm
 
 # A/B OTA Partitions
