@@ -18,7 +18,7 @@ aidl_interface {
             sdk_version: "module_current",
         },
         ndk: {
-            enabled: true,
+            enabled: false,
         },
     },
     frozen: true,
