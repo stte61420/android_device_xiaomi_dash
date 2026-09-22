@@ -16,7 +16,7 @@ gen_key() {
     echo "[*] generating RSA-4096 key: $name"
     openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 \
         -out "$KEYDIR/$name.pem" 2>/dev/null
-    openssl pk8 -topk8 -inform PEM -outform DER -nocrypt \
+    openssl pkcs8 -topk8 -inform PEM -outform DER -nocrypt \
         -in "$KEYDIR/$name.pem" -out "$KEYDIR/$name.pk8"
     openssl req -new -x509 -sha256 -key "$KEYDIR/$name.pem" \
         -out "$KEYDIR/$name.x509.pem" -days "$DAYS" -subj "$SUBJECT" \
