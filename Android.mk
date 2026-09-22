@@ -7,6 +7,7 @@ ifeq ($(TARGET_DEVICE),dash)
 # Install the retained platform contents using Android's file-copy rules.
 # Modules and modules.load are installed separately by the core depmod rules.
 dash_platform_root := $(DASH_KERNEL_INPUTS)/platform
+ifneq ($(wildcard $(dash_platform_root)),)
 dash_platform_files := $(filter-out $(dash_platform_root)/lib/modules/modules.load,$(shell find $(dash_platform_root) -type f))
 dash_platform_outputs := $(patsubst $(dash_platform_root)/%,$(TARGET_VENDOR_RAMDISK_OUT)/%,$(dash_platform_files))
 $(foreach src,$(dash_platform_files),$(eval $(call copy-one-file,$(src),$(patsubst $(dash_platform_root)/%,$(TARGET_VENDOR_RAMDISK_OUT)/%,$(src)))))
@@ -29,6 +30,9 @@ $(dash_platform_dirs_stamp):
 	touch $@
 $(dash_platform_outputs): | $(dash_platform_dirs_stamp)
 ALL_DEFAULT_INSTALLED_MODULES += $(dash_platform_outputs)
+endif
 
+ifneq ($(wildcard $(DASH_STOCK_INPUTS)/vbmeta_vendor.img),)
 $(PRODUCT_OUT)/vbmeta.img: $(DASH_STOCK_INPUTS)/vbmeta_vendor.img
+endif
 endif
