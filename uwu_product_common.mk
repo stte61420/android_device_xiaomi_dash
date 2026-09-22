@@ -49,7 +49,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # dash 专属能力开关（DashWake / DashCharging / DashLedService 等读取）
-DASH_ENABLE_POWER_HOOKS ?= true
+DASH_ENABLE_POWER_HOOKS := false
 
 # ---------------------------------------------------------------------------
 # 4) 设备配置
