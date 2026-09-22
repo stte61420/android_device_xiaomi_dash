@@ -1,7 +1,10 @@
 # Copyright (C) 2026 GitHub @YorokobiMaster
 # SPDX-License-Identifier: Apache-2.0
+
+ifeq ($(DASH_ENABLE_BRIGHTNESS_HOOKS),true)
 PRODUCT_PACKAGES += dash-brightness
 PRODUCT_SYSTEM_SERVER_JARS_EXTRA += system_ext:dash-brightness
+endif
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/display/brightness/config/display_id_4627039422300187648.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/displayconfig/display_id_4627039422300187648.xml \
