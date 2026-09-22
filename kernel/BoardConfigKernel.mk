@@ -44,14 +44,16 @@ BOARD_AVB_ALGORITHM := SHA256_RSA4096
 DASH_KEYDIR ?= $(HOME)/.android-certs
 
 ifeq ($(BOARD_AVB_KEY_PATH),)
-  ifeq ($(DASH_RELEASE_KEYS),true)
+  ifneq ($(wildcard $(DASH_KEYDIR)/avb.pk8),)
     BOARD_AVB_KEY_PATH := $(DASH_KEYDIR)/avb.pk8
   else ifneq ($(wildcard vendor/lineage-priv/keys/avb.pk8),)
     BOARD_AVB_KEY_PATH := vendor/lineage-priv/keys/avb.pk8
   else ifneq ($(wildcard vendor/custom-priv/keys/avb.pk8),)
     BOARD_AVB_KEY_PATH := vendor/custom-priv/keys/avb.pk8
-  else
+  else ifneq ($(wildcard $(DEVICE_PATH)/keys/avb.pk8),)
     BOARD_AVB_KEY_PATH := $(DEVICE_PATH)/keys/avb.pk8
+  else
+    BOARD_AVB_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
   endif
 endif
 
