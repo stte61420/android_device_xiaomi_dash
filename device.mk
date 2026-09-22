@@ -85,7 +85,6 @@ PRODUCT_PACKAGES += \
     DashEyeCare \
     DashFrameworkResOverlay \
     DashLedService \
-    DashLineagePartsOverlay \
     DashRefreshRate \
     DashSettingsOverlay \
     DashTelecommOverlay \
@@ -116,6 +115,12 @@ PRODUCT_PACKAGES += \
     vendor.mediatek.hardware.videotelephony-V1-ndk \
     vendor.mediatek.hardware.videotelephony@1.0
 
+# LineageParts RRO overlay
+ifeq ($(DASH_WITH_LINEAGE_PARTS),true)
+PRODUCT_PACKAGES += \
+    DashLineagePartsOverlay
+endif
+
 # MediaTek's retained IMS and GBA services load these classes from the boot
 # class path. Keep the device additions after the common platform jars.
 PRODUCT_BOOT_JARS_EXTRA += \
@@ -127,5 +132,11 @@ DEVICE_PACKAGE_OVERLAYS += \
     $(DEVICE_PATH)/overlay \
     $(DEVICE_PATH)/overlay-lineage
 
-# MindTheGApps/vendor_gapps, branch `baklava`, core GMS fits default partition sizes.
-$(call inherit-product, $(DEVICE_PATH)/enhancements/gapps/core-arm64.mk)
+# Google Mobile Services —— 互斥注入（uwuAOSP 16.2 适配）
+# uwuAOSP 的 vendor/custom/config/pixel.mk 已注入完整 Pixel GMS（WITH_GMS := true）。
+# 当 WITH_GMS=true 且未显式指定 DASH_INJECT_MTGA 时，跳过 MindTheGApps 避免包冲突。
+ifeq ($(DASH_INJECT_MTGA),true)
+    $(call inherit-product, $(DEVICE_PATH)/enhancements/gapps/core-arm64.mk)
+else ifneq ($(WITH_GMS),true)
+    $(call inherit-product, $(DEVICE_PATH)/enhancements/gapps/core-arm64.mk)
+endif

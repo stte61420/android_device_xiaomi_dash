@@ -1,70 +1,79 @@
-Device configuration for Redmi Turbo 5 Max (dash)
-=============================================
+Device configuration for Redmi Turbo 5 Max (dash) — uwuAOSP 16.2
+====================================================================
 
-EN | [简体中文](README_zh.md)
+This repository provides the device tree for the **Redmi Turbo 5 Max (dash)** adapted for **uwuAOSP 16.2** (`uwu-16.2` branch, Android 16 / Baklava / BP4A), ported from @YorokobiMaster's LineageOS 23.2 implementation.
 
-The Redmi Turbo 5 Max is a ~~performance flagship powered by a nerfed previous-gen MTK flagship SoC~~ proper current-gen, full-fat MTK performance flagship, packed with a 120 Hz 6.83-inch AMOLED display and a massive 9,000 mAh Xiaomi Jinshajiang Battery.
+## Device Specifications
 
-## TL;DR
+| Attribute | Specification |
+| :--- | :--- |
+| **SoC** | MediaTek Dimensity 9500s (MT6991Z/ECZB, TSMC 3 nm) |
+| **CPU** | Octa-core: 1x 3.73 GHz Cortex-X925 & 3x 3.30 GHz Cortex-X4 & 4x 2.40 GHz Cortex-A720 |
+| **GPU** | Immortalis-G925 MC12 |
+| **Memory** | 12/16 GB LPDDR5X RAM |
+| **Storage** | 256/512 GB/1 TB UFS 4.1 |
+| **Shipped OS** | HyperOS 3 (Android 16, API 36, VNDK 35) |
+| **Battery** | 9000 mAh Si/C battery, 100W wired (PPS/PD3.0) |
+| **Display** | 6.83" AMOLED, 1280 x 2772 (1.5K), 120 Hz |
+| **Biometrics** | Ultrasonic under-display fingerprint |
+| **Target ROM** | uwuAOSP 16.2 (`uwu-16.2`) |
 
-### Known issues
+---
 
-- Randomly enters BROM. (Possibly related to MiTEE; not yet confirmed.)
-- Some reusable HyperOS features are not yet integrated.
+## Quick Start (uwuAOSP 16.2 Build)
 
-### Untested
+### 1. Initialize Manifest & Local Manifest
 
-* Thermal / power management
-* Reverse wired charging
-* VoWiFi
+```bash
+mkdir -p ~/uwuaosp-16.2 && cd ~/uwuaosp-16.2
+repo init -u https://github.com/uwuAOSP/platform_manifests -b uwu-16.2 --git-lfs
 
-### Working
+# Add local manifest for dash
+mkdir -p .repo/local_manifests
+cp device/xiaomi/dash/docs/dash.xml .repo/local_manifests/dash.xml
 
-* Cellular / VoLTE
-* Wi-Fi
-* Bluetooth
-* NFC
-* Cameras
-* Audio
-* Sensors
-* GNSS
-* Always-on Display
-* Fingerprint
-* USB OTG
-* Fast charging
-* Suspend / wake
-  * Lift-to-wake
-  * Gaze-to-wake
-  * Tap-to-wake
-* Encryption
-* SELinux enforcing
+# Sync source
+repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
+```
 
-### Not planned
+### 2. Standard userdebug Build
 
-* Face unlock
+```bash
+source build/envsetup.sh
+lunch custom_dash-bp4a-userdebug
+m bacon -j$(nproc)
+```
 
-## Device specifications
+### 3. Production user / release-keys Build
 
-Basic     | Spec Sheet
----------:|:---------------------------------------------------------
-SoC       | MediaTek Dimensity 9500s (MT6991Z/ECZB, TSMC 3 nm)
-CPU       | Octa-core: 1x 3.73 GHz Cortex-X925 & 3x 3.30 GHz Cortex-X4 & 4x 2.40 GHz Cortex-A720
-GPU       | Immortalis-G925 MC12
-Memory    | 12/16 GB LPDDR5X RAM
-Storage   | 256/512 GB/1 TB UFS 4.1
-Shipped Android version | 16 (HyperOS 3)
-Battery   | 9000 mAh Si/C battery, 100W wired (PPS/PD3.0), 27W reverse wired
-Display   | 6.83" AMOLED, 1280 x 2772 (1.5K), 120 Hz, 3840 Hz PWM, Dolby Vision / HDR10+ / HDR Vivid, 3500 nits peak
-Rear camera  | 50 MP f/1.5 wide (OIS) + 8 MP f/2.2 ultrawide
-Front camera | 20 MP f/2.2
-Dimensions | 163 x 77.9 x 8.2 mm, 219 g
-Ingress protection | IP66/IP68/IP69/IP69K
-Biometrics | Ultrasonic under-display fingerprint
-Connectivity | Wi-Fi 7, Bluetooth 5.4, NFC, IR blaster, USB-C 2.0
+1. Generate 4096-bit RSA keys:
+   ```bash
+   ./device/xiaomi/dash/keys/gen_release_keys.sh ~/.android-certs
+   ```
+2. Build with release keys:
+   ```bash
+   source build/envsetup.sh
+   lunch custom_dash-bp4a-user
+   m DASH_RELEASE_KEYS=true DASH_KEYDIR=$HOME/.android-certs \
+     DASH_AVB_KEY_PATH=$HOME/.android-certs/avb.pk8 bacon -j$(nproc)
+   ```
 
-## Device picture
+---
 
-![Redmi Turbo 5 Max](redmi_turbo_5_max.png "Redmi Turbo 5 Max")
+## Key Adaptations from lineage-23.2
+
+1. **ROM Heritage**:
+   - Switched from `vendor/lineage/config/common_full_phone.mk` to `vendor/custom/config/common_full_phone.mk`.
+   - Preserved Lineage SDK and hardware components while cleanly importing uwuAOSP / PixelOS custom extensions and Pixel GMS suite.
+2. **Product & Lunch Choices**:
+   - Added `custom_dash.mk` (`PRODUCT_NAME := custom_dash`) and compatibility alias `uwu_dash.mk`.
+   - Provided `custom_dash-bp4a-user` and `custom_dash-bp4a-userdebug` targets.
+3. **GMS Decoupling**:
+   - Conditional inclusion via `ifneq ($(WITH_GMS),true)` in `device.mk` to avoid package collisions between device-level MindTheGApps and uwuAOSP's native Pixel GMS suite.
+4. **AVB 2.0 Key Flexibility**:
+   - Enabled flexible resolution for `BOARD_AVB_KEY_PATH` supporting custom release keys and user builds (`--flags 0`).
+
+---
 
 ## License
 

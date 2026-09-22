@@ -37,10 +37,26 @@ BOARD_VENDOR_RAMDISK_FRAGMENT.recovery.PREBUILT := $(DASH_KERNEL_INPUTS)/vendor_
 BOARD_USES_VENDOR_DLKMIMAGE := true
 include $(DEVICE_PATH)/kernel/modules.mk
 
-# Build only the top-level vbmeta from current image descriptors.
-# Vendor stays on stock 305; retain its descriptor without rebuilding it.
 BOARD_AVB_ENABLE := true
-BOARD_AVB_KEY_PATH := vendor/lineage-priv/keys/avb.pk8
 BOARD_AVB_ALGORITHM := SHA256_RSA4096
+
+# AVB 2.0 key resolution
+DASH_KEYDIR ?= $(HOME)/.android-certs
+
+ifeq ($(BOARD_AVB_KEY_PATH),)
+  ifeq ($(DASH_RELEASE_KEYS),true)
+    BOARD_AVB_KEY_PATH := $(DASH_KEYDIR)/avb.pk8
+  else ifneq ($(wildcard vendor/lineage-priv/keys/avb.pk8),)
+    BOARD_AVB_KEY_PATH := vendor/lineage-priv/keys/avb.pk8
+  else ifneq ($(wildcard vendor/custom-priv/keys/avb.pk8),)
+    BOARD_AVB_KEY_PATH := vendor/custom-priv/keys/avb.pk8
+  else
+    BOARD_AVB_KEY_PATH := $(DEVICE_PATH)/keys/avb.pk8
+  endif
+endif
+
+# Disable verity and verification on non-user builds for debugging; keep flags 0 for user builds
+ifneq ($(TARGET_BUILD_VARIANT),user)
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
+endif
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --include_descriptors_from_image $(DASH_STOCK_INPUTS)/vbmeta_vendor.img

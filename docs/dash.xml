@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <remote name="stte61420-gh" fetch="https://github.com/" revision="uwu-16.2" />
+
+  <!-- 设备树 (针对 uwuAOSP 16.2 进行适配) -->
+  <project name="stte61420/android_device_xiaomi_dash"
+           path="device/xiaomi/dash"
+           remote="stte61420-gh" revision="uwu-16.2" />
+
+  <!-- GKI 6.6 内核与 MTK / Bazel 规则仓库镜像 -->
+  <project name="stte61420/android_kernel_xiaomi_dash"
+           path="kernel/xiaomi/dash"
+           remote="stte61420-gh" revision="dash-w-oss" />
+
+  <project name="stte61420/android_kernel_xiaomi_dash_build"
+           path="kernel/xiaomi/dash_build"
+           remote="stte61420-gh" revision="dash-w-oss" />
+
+  <project name="stte61420/android_kernel_xiaomi_dash_bazel_mgk_rules"
+           path="kernel/xiaomi/dash_bazel_mgk_rules"
+           remote="stte61420-gh" revision="lineage-23.2" />
+
+  <project name="stte61420/android_kernel_xiaomi_dash_device_modules"
+           path="kernel/xiaomi/dash_device_modules"
+           remote="stte61420-gh" revision="dash-w-oss" />
+
+  <project name="stte61420/android_kernel_xiaomi_dash_mtk_modules"
+           path="kernel/xiaomi/dash_mtk_modules"
+           remote="stte61420-gh" revision="dash-w-oss" />
+</manifest>
