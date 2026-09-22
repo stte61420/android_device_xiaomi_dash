@@ -40,6 +40,8 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH) \
     $(DEVICE_PATH)/wake \
+    hardware/mediatek \
+    hardware/xiaomi \
     vendor/xiaomi/dash
 
 # Bluetooth profiles exposed by the stock phone product.

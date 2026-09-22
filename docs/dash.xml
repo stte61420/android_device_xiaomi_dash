@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
   <remote name="stte61420-gh" fetch="https://github.com/" revision="uwu-16.2" />
+  <remote name="gitlab-hexaboo" fetch="https://gitlab.com/" revision="lineage-23.2" />
 
-  <!-- 设备树 (针对 uwuAOSP 16.2 进行适配) -->
+  <!-- 设备树 (适配 uwuAOSP 16.2) -->
   <project name="stte61420/android_device_xiaomi_dash"
            path="device/xiaomi/dash"
            remote="stte61420-gh" revision="uwu-16.2" />
@@ -27,4 +28,24 @@
   <project name="stte61420/android_kernel_xiaomi_dash_mtk_modules"
            path="kernel/xiaomi/dash_mtk_modules"
            remote="stte61420-gh" revision="dash-w-oss" />
+
+  <!-- 修复 upstream tesseract pack 损坏问题 -->
+  <remove-project name="uwuAOSP/platform_external_tesseract" />
+  <project path="external/tesseract"
+           name="stte61420/platform_external_tesseract"
+           remote="stte61420-gh" revision="uwu-16.2" />
+
+  <!-- 硬件接口依赖 -->
+  <project path="hardware/xiaomi"
+           name="LineageOS/android_hardware_xiaomi"
+           remote="github" revision="lineage-23.2" />
+
+  <project path="hardware/mediatek"
+           name="LineageOS/android_hardware_mediatek"
+           remote="github" revision="lineage-23.2" />
+
+  <!-- 专有驱动仓库 -->
+  <project path="vendor/xiaomi/dash"
+           name="Hexaboo/proprietary_vendor_xiaomi_dash"
+           remote="gitlab-hexaboo" revision="lineage-23.2" />
 </manifest>
