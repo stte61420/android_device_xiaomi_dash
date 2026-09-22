@@ -25,12 +25,9 @@ gen_key() {
 }
 
 # APK/JAR 签名证书
-for k in releasekey platform shared media networkstack otakey; do
+for k in releasekey platform shared media networkstack otakey bluetooth nfc sdk_sandbox; do
     gen_key "$k"
 done
-
-# 可选：SDK Sandbox
-[ "${GEN_SDK_SANDBOX:-0}" = "1" ] && gen_key sdk_sandbox
 
 # dm-verity
 gen_key verity
