@@ -69,3 +69,13 @@ BOARD_VENDOR_DLKMIMAGE_EROFS_PCLUSTER_SIZE := 16384
 
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += \
     $(DEVICE_PATH)/sepolicy/system_ext/private
+
+# Dynamic Partitions
+BOARD_SUPER_PARTITION_SIZE := 9126805504
+BOARD_SUPER_PARTITION_GROUPS := main
+BOARD_MAIN_SIZE := 9122611200
+BOARD_MAIN_PARTITION_LIST :=     system     system_ext     product     vendor_dlkm
+
+# A/B OTA Partitions
+AB_OTA_UPDATER := true
+AB_OTA_PARTITIONS :=     boot     init_boot     vendor_boot     dtbo     vbmeta     system     system_ext     product     vendor_dlkm
