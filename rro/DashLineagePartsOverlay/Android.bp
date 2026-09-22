@@ -1,6 +1,9 @@
 // Copyright (C) 2026 GitHub @YorokobiMaster
 // SPDX-License-Identifier: Apache-2.0
-
+//
+// Disabled for uwuAOSP 16.2 as LineageParts is replaced by Pixel Settings / SettingsExt.
+//
+/*
 runtime_resource_overlay {
     name: "DashLineagePartsOverlay",
     certificate: "platform",
@@ -9,3 +12,4 @@ runtime_resource_overlay {
     // Keep overlay IDs distinct from target 0x7f IDs and nonzero for idmap2.
     aaptflags: ["--package-id", "0x7e", "--allow-reserved-package-id"],
 }
+*/

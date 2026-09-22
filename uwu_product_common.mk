@@ -28,7 +28,7 @@ WITH_GMS         ?= true
 DASH_INJECT_MTGA ?= false
 
 # LineageParts（org.lineageos.parts）RRO 覆盖层开关
-DASH_WITH_LINEAGE_PARTS ?= true
+DASH_WITH_LINEAGE_PARTS ?= false
 
 # ---------------------------------------------------------------------------
 # 2) 发布构建签名钩子（user / release-keys）
